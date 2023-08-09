@@ -16,13 +16,10 @@ router.get('/', async (req, res) => {
 // This route uses async/await with try/catch for errors
 // along with HTTP status codes
 router.post('/', async (req, res) => {
-  try {
-    // 200 status code means the request is successful
-    res.status(200).json(req);
-  } catch (err) {
-    // 400 status code means the server could not understand the request
-    res.status(400).json(err);
-  }
-});
+	
+let values = [req['name']];
+db.query(`INSERT into department (name) VALUES ?`,[values])
+}
+);
 
 module.exports = router;

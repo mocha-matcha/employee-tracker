@@ -80,6 +80,33 @@ VALUES (1,"John","Doe",1,1),
         });
 
 
+
+inquirer.prompt([
+	{name:'choice'
+	,message:'what would you like to do.',
+		type:'list',
+		choices:['view dapartments','view roles', 'view employee' , 'add role','add employee'],
+
+
+
+
+
+	},
+	{}
+]
+);
+
+
+
+
+
+
+
+
+
+
+
+
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
