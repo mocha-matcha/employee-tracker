@@ -1,14 +1,15 @@
-INSERT INTO department (id,name)
-VALUES (1,"name1"),
-(2,"name2"),
-(3,"name3");
-
-INSERT INTO role (id,title,salary,department_id)
-VALUES (1,"title",15.0,1),
-(2,"title1",15.0,1),
-(3,"title2",15.0,1);
-
-INSERT INTO employee (id,first_name,last_name,role_id,manager_id)
-VALUES (1,"first_name","last_name",1,1),
-(2,"first_name","last_name",1,2),
-(3,"first_name","last_name",1,1);
+/* INSERT INTO department (id,name)
+VALUES (1,"Sales"),
+(2,"Engineering"),
+(3,"Finance"),
+(4,"Legal"); */
+INSERT INTO role(title,salary,department_id)
+VALUES ("Role 1",10000,1),
+("Role 1",10000,1),
+("Role 1",10000,1),
+("Role 1",10000,1);
+INSERT INTO employee(first_name,last_name,role_id,manager_id)
+VALUES ("John","Doe",1,1),
+("Mimi","Mal",4,1),
+("Zoo","Wee",3,1),
+("Person","Nosrep",1,1);

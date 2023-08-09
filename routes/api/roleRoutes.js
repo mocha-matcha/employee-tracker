@@ -1,9 +1,9 @@
 const router = require('express').Router();
-
+const db = require('../../connection');
 // This route uses async/await with '.catch()' for errors
 // and no HTTP status codes
 router.get('/', async (req, res) => {
-	db.query('SELECT * FROM role;', (err, results) => {
+	db.query('SELECT * FROM role', (err, results) => {
 		if (err) { console.log(err); } else {
 			console.log(results);
 
