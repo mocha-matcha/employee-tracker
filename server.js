@@ -86,31 +86,224 @@ const getCall = async (table) => {
         'Content-Type': 'application/json',
       },
     })
+
+
+    
+
+    ask();
 };
 
-const putCall = async (table) => {
-  switch (table) {
+const putEmployeeRole = async () => {
 
+  let possibleEmployees = [];
+
+  db.query('SELECT * FROM employee', async (err, result) => {
+    if (err) {
+      throw err;
+    }
+    // console.log(result);
+    possibleEmployees = await result.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
+    // console.log(possibleManagers);
+    const employeeChoice = await inquirer.prompt([
+      {
+        name: 'employee',
+        type: 'list',
+        message: 'Who is the employee you want to update?',
+        choices: possibleEmployees
+      }]);
+
+    const selectedEmployee = employeeChoice.employee;
+    
+
+
+ let possibleRoles = []
+    db.query('SELECT * FROM role', async (err, result) => {
+      if (err) {
+        throw err;
+      }
+      // console.log(result);
+      possibleRoles = await result.map(({ id, title }) => ({ name: title, value: id }));
+      // console.log(possibleRoles); })
+      console.log(possibleRoles)
+
+
+
+      const roleChoice = await inquirer.prompt([
+        {
+          name: 'role',
+          type: 'list',
+          message: 'What is their new role?',
+          choices: possibleRoles
+        }]);
+
+
+      const selectedRole = roleChoice.role;
+
+
+      db.query(`UPDATE employee SET role_id = ${selectedRole}  WHERE id = ${selectedEmployee}`,(err)=>{
+
+
+        if (err) {
+          throw err
+        }
+        else{
+
+          console.log('OK')
+          ask();
+        }
+
+
+      })
+
+
+    })
+
+
+    
+
+
+})}
+
+
+const postDepartment = async () =>
+{
+
+
+
+const departmentData = await inquirer.prompt(
+
+[
+
+
+  {
+
+    name:'name',
+    message:"What is the department's name?",
+    type:'input'
+  }
+]
+
+);
+
+db.query(`INSERT INTO department (name) VALUES ('${departmentData.name}')`,(err)=>{
+
+
+  if (err) {
+    throw err
+  }
+  else{
+
+    console.log('OK')
+    ask();
   }
 
-  const data = {}
 
-  await fetch(`http://localhost:${PORT}/api/${table}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(table),
-  });
-  ask();
+})
+
+
 }
 
 const postRole = async () => {
 
+  let data = {}
+  const roleData = await inquirer.prompt(
+    [
+      {
+        name: 'title',
+        type: 'input',
+        message: "Role's Name?"
+
+
+      },
+      {
+
+        name: 'salary',
+        type: 'input',
+        message: "Roles'? Salary"
+
+
+      },
+
+
+
+    ]
+
+  )
+
+  data['title'] = roleData.title;
+  data['salary'] = roleData.salary;
+
+  console.log(data)
+  let possibleDepartments = [];
+
+  db.query('SELECT * FROM department', async (err, result) => {
+    if (err) {
+      throw err;
+    }
+    // console.log(result);
+    possibleDepartments = await result.map(({ id, name }) => ({ name: name, value: id }));
+    // console.log(possibleManagers);
+    const departmentChoice = await inquirer.prompt([
+      {
+        name: 'department',
+        type: 'list',
+        message: "What is the role's department?",
+        choices: possibleDepartments
+      }]);
+
+    data['department_id'] = departmentChoice.department;
+
+
+
+      db.query(`INSERT INTO role (title,salary,department_id) VALUES ('${data.title}','${data.salary}',${data.department_id})`,(err)=>{
+
+
+        if (err) {
+          throw err
+        }
+        else{
+
+          console.log('OK')
+          ask();
+        }
+
+
+      })
+
+
+    })
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 };
 
-const postEmployee = async (table) => {
+const postEmployee = async () => {
 
   let data = {}
   const employeeData = await inquirer.prompt(
@@ -226,7 +419,7 @@ const ask = async () => {
       , message: 'what would you like to do.',
       type: 'list',
 
-      choices: ['view departments', 'view roles', 'view employees', 'add department', 'add role', 'add employee', 'update employee']
+      choices: ['view departments', 'view roles', 'view employees', 'add department', 'add role', 'add employee', 'update employee role']
     }
 
   ]
@@ -246,7 +439,7 @@ const ask = async () => {
       getCall('employee');
       break;
     case 'add department':
-      postCall('department');
+      postDepartment();
       break;
     case 'add role':
       postRole();
@@ -254,8 +447,8 @@ const ask = async () => {
     case 'add employee':
       await postEmployee();
       break;
-    case 'update employee':
-      putEmployee();
+    case 'update employee role':
+      putEmployeeRole();
       break;
 
 
