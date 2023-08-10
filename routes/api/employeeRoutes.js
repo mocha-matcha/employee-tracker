@@ -7,9 +7,17 @@ router.get('/', async (req, res) => {
 
 
 
-	db.query('SELECT * FROM employee', (err, results) => {
+	// db.query('SELECT * FROM employee', (err, results) => {
+	// 	if (err) { console.log(err); } else {
+	// 		console.table(results);
+
+	// 		return res.json(results);
+	// 	}
+	// })
+
+	db.query('SELECT employee.id,employee.first_name ,employee.last_name,role.title AS role,employee.first_name AS manager FROM employee INNER JOIN role ON role.id = employee.role_id INNER JOIN employee e ON e.id = employee.manager_id', (err, results) => {
 		if (err) { console.log(err); } else {
-			console.log(results);
+			console.table(results);
 
 			return res.json(results);
 		}

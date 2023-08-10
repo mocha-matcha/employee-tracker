@@ -88,9 +88,9 @@ const getCall = async (table) => {
     })
 
 
-    
 
-    ask();
+
+  ask();
 };
 
 const putEmployeeRole = async () => {
@@ -101,9 +101,7 @@ const putEmployeeRole = async () => {
     if (err) {
       throw err;
     }
-    // console.log(result);
     possibleEmployees = await result.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
-    // console.log(possibleManagers);
     const employeeChoice = await inquirer.prompt([
       {
         name: 'employee',
@@ -113,18 +111,16 @@ const putEmployeeRole = async () => {
       }]);
 
     const selectedEmployee = employeeChoice.employee;
-    
 
 
- let possibleRoles = []
+
+    let possibleRoles = []
     db.query('SELECT * FROM role', async (err, result) => {
       if (err) {
         throw err;
       }
-      // console.log(result);
       possibleRoles = await result.map(({ id, title }) => ({ name: title, value: id }));
-      // console.log(possibleRoles); })
-      console.log(possibleRoles)
+
 
 
 
@@ -140,13 +136,13 @@ const putEmployeeRole = async () => {
       const selectedRole = roleChoice.role;
 
 
-      db.query(`UPDATE employee SET role_id = ${selectedRole}  WHERE id = ${selectedEmployee}`,(err)=>{
+      db.query(`UPDATE employee SET role_id = ${selectedRole}  WHERE id = ${selectedEmployee}`, (err) => {
 
 
         if (err) {
           throw err
         }
-        else{
+        else {
 
           console.log('OK')
           ask();
@@ -159,46 +155,46 @@ const putEmployeeRole = async () => {
     })
 
 
-    
-
-
-})}
-
-
-const postDepartment = async () =>
-{
 
 
 
-const departmentData = await inquirer.prompt(
-
-[
-
-
-  {
-
-    name:'name',
-    message:"What is the department's name?",
-    type:'input'
-  }
-]
-
-);
-
-db.query(`INSERT INTO department (name) VALUES ('${departmentData.name}')`,(err)=>{
+  })
+}
 
 
-  if (err) {
-    throw err
-  }
-  else{
-
-    console.log('OK')
-    ask();
-  }
+const postDepartment = async () => {
 
 
-})
+
+  const departmentData = await inquirer.prompt(
+
+    [
+
+
+      {
+
+        name: 'name',
+        message: "What is the department's name?",
+        type: 'input'
+      }
+    ]
+
+  );
+
+  db.query(`INSERT INTO department (name) VALUES ('${departmentData.name}')`, (err) => {
+
+
+    if (err) {
+      throw err
+    }
+    else {
+
+      console.log('OK')
+      ask();
+    }
+
+
+  })
 
 
 }
@@ -219,7 +215,7 @@ const postRole = async () => {
 
         name: 'salary',
         type: 'input',
-        message: "Roles'? Salary"
+        message: "Roles's Salary"
 
 
       },
@@ -233,16 +229,13 @@ const postRole = async () => {
   data['title'] = roleData.title;
   data['salary'] = roleData.salary;
 
-  console.log(data)
   let possibleDepartments = [];
 
   db.query('SELECT * FROM department', async (err, result) => {
     if (err) {
       throw err;
     }
-    // console.log(result);
     possibleDepartments = await result.map(({ id, name }) => ({ name: name, value: id }));
-    // console.log(possibleManagers);
     const departmentChoice = await inquirer.prompt([
       {
         name: 'department',
@@ -255,28 +248,28 @@ const postRole = async () => {
 
 
 
-      db.query(`INSERT INTO role (title,salary,department_id) VALUES ('${data.title}','${data.salary}',${data.department_id})`,(err)=>{
+    db.query(`INSERT INTO role (title,salary,department_id) VALUES ('${data.title}','${data.salary}',${data.department_id})`, (err) => {
 
 
-        if (err) {
-          throw err
-        }
-        else{
+      if (err) {
+        throw err
+      }
+      else {
 
-          console.log('OK')
-          ask();
-        }
-
-
-      })
+        console.log('OK')
+        ask();
+      }
 
 
     })
 
 
+  })
 
 
-  
+
+
+
 
 
 
@@ -333,16 +326,13 @@ const postEmployee = async () => {
   data['first_name'] = employeeData.first_name;
   data['last_name'] = employeeData.last_name;
 
-  console.log(data)
   let possibleManagers = [];
 
   db.query('SELECT * FROM employee', async (err, result) => {
     if (err) {
       throw err;
     }
-    // console.log(result);
     possibleManagers = await result.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
-    // console.log(possibleManagers);
     const managerChoice = await inquirer.prompt([
       {
         name: 'manager',
@@ -360,9 +350,7 @@ const postEmployee = async () => {
       if (err) {
         throw err;
       }
-      // console.log(result);
       possibleRoles = await result.map(({ id, title }) => ({ name: title, value: id }));
-      // console.log(possibleRoles); })
       console.log(possibleRoles)
 
 
@@ -380,13 +368,13 @@ const postEmployee = async () => {
       console.log(data);
 
 
-      db.query(`INSERT INTO employee (first_name,last_name,role_id,manager_id) VALUES ('${data.first_name}','${data.last_name}',${data.role_id},${data.manager_id})`,(err)=>{
+      db.query(`INSERT INTO employee (first_name,last_name,role_id,manager_id) VALUES ('${data.first_name}','${data.last_name}',${data.role_id},${data.manager_id})`, (err) => {
 
 
         if (err) {
           throw err
         }
-        else{
+        else {
 
           console.log('OK')
           ask();
@@ -419,7 +407,7 @@ const ask = async () => {
       , message: 'what would you like to do.',
       type: 'list',
 
-      choices: ['view departments', 'view roles', 'view employees', 'add department', 'add role', 'add employee', 'update employee role']
+      choices: ['view departments', 'view roles', 'view employees', 'add department', 'add role', 'add employee', 'update employee role', 'stop']
     }
 
   ]
@@ -449,6 +437,9 @@ const ask = async () => {
       break;
     case 'update employee role':
       putEmployeeRole();
+      break;
+    case 'stop':
+      process.exit();
       break;
 
 

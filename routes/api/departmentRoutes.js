@@ -4,9 +4,9 @@ const db = require('../../connection');
 // and no HTTP status codes
 router.get('/', async (req, res) => {
 	console.log('department get')
-	db.query('SELECT * FROM department', (err, results) => {
+	db.query('SELECT department.id,department.name FROM department', (err, results) => {
 		if (err) { console.log(err); } else {
-			console.log(results);
+			console.table(results);
 
 			return res.json(results);
 		}

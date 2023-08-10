@@ -3,13 +3,25 @@ const db = require('../../connection');
 // This route uses async/await with '.catch()' for errors
 // and no HTTP status codes
 router.get('/', async (req, res) => {
-	db.query('SELECT * FROM role', (err, results) => {
+	
+  
+  // db.query('SELECT * FROM role', (err, results) => {
+	// 	if (err) { console.log(err); } else {
+	// 		console.table(results);
+
+	// 		return res.json(results);
+	// 	}
+	// })
+
+  db.query('SELECT role.id,role.title,role.salary,department.name AS department FROM role INNER JOIN department ON department.id = role.department_id', (err, results) => {
 		if (err) { console.log(err); } else {
-			console.log(results);
+			console.table(results);
 
 			return res.json(results);
 		}
 	})
+
+
 });
 
 // This route uses async/await with try/catch for errors
