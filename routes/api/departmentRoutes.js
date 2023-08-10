@@ -3,6 +3,7 @@ const db = require('../../connection');
 // This route uses async/await with '.catch()' for errors
 // and no HTTP status codes
 router.get('/', async (req, res) => {
+	console.log('department get')
 	db.query('SELECT * FROM department', (err, results) => {
 		if (err) { console.log(err); } else {
 			console.log(results);
@@ -21,5 +22,8 @@ let values = [req['name']];
 db.query(`INSERT into department (name) VALUES ?`,[values])
 }
 );
+
+
+
 
 module.exports = router;
